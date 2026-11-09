@@ -1,0 +1,13 @@
+# Deterministic text checkout on Windows and Linux.
+* text=auto eol=lf
+*.png -text
+*.jpg -text
+*.jpeg -text
+*.gif -text
+*.webp -text
+*.ico -text
+*.ttf -text
+*.otf -text
+*.woff -text
+*.woff2 -text
+*.pdf -text

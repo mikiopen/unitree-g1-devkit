@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "profile": "reference",
+  "robot": {"model": null, "dof": null, "firmware": null, "interface": null, "state_topic": "rt/lowstate", "sdk_commit": null},
+  "ports": {"command": 2006, "status": 3840, "action": 6789},
+  "resources": {"vosk_model": ".local/resources/vosk", "actions": "adapters/reference/actions", "logs": ".local/logs"},
+  "services": {
+    "controller": "adapters/reference",
+    "subscriber": "adapters/reference/subscriber.py",
+    "action": "adapters/reference/action_service.py"
+  }
+}

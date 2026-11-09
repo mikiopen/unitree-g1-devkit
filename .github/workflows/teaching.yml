@@ -1,0 +1,23 @@
+name: Teaching checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  pc:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python tools/verify_learning.py
+      - run: python tools/check_upload_credentials.py
+      - run: python tools/check_publication.py
+      - name: Host C protocol verification
+        if: runner.os == 'Linux'
+        run: |
+          cc -std=c99 -Wall -Wextra -Werror examples/career-labs/serial/protocol.c examples/career-labs/serial/host_test.c -o "$RUNNER_TEMP/g1-host-test"
+          "$RUNNER_TEMP/g1-host-test"

@@ -1,0 +1,67 @@
+# Local publication review
+PUBLICATION_REVIEW.local.*
+.local/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+*.token
+key.properties
+local.properties
+secrets/
+private/
+local-archive/
+
+# Environments, caches and build products
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+.dart_tool/
+.fvm/
+.pub-cache/
+build/
+dist/
+.cache/
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Installers, models and generated binaries
+*.zip
+*.rar
+*.7z
+*.tar
+*.gz
+*.deb
+*.exe
+*.dll
+*.so
+*.so.*
+*.a
+*.o
+*.obj
+*.pt
+*.pth
+*.onnx
+*.engine
+*.dat
+
+# Local recordings, face data and runtime databases
+*.wav
+*.mp3
+*.mp4
+*.avi
+*.mov
+*.db
+*.sqlite
+*.sqlite3
+models/

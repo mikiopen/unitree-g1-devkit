@@ -1,0 +1,10 @@
+{
+  "validation_status": "not-verified",
+  "robot": {"model": null, "dof": null, "firmware": null, "os": null},
+  "sdk": {"repository": "https://github.com/unitreerobotics/unitree_sdk2_python", "commit": null},
+  "network": {"interface": null, "state_topic": null, "dds_domain": 0},
+  "application_pair": {"controller": null, "subscriber": null, "action_service": null, "action_data": null},
+  "validated_at": null,
+  "evidence": [],
+  "stop_method_verified": null
+}

@@ -1,0 +1,2 @@
+# Optional ASR branch. Baseline version only; real model inference is not verified here.
+vosk==0.3.45

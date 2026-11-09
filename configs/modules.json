@@ -1,0 +1,11 @@
+{
+  "default": "learning",
+  "robot_candidate": "adapter",
+  "modules": [
+    {"id": "learning", "title": "六阶段学习框架", "path": "docs", "status": "maintained"},
+    {"id": "runtime", "title": "Python 教学工具", "path": "g1devkit", "status": "maintained"},
+    {"id": "examples", "title": "电脑端最小实验", "path": "examples", "status": "maintained"},
+    {"id": "adapter", "title": "设备适配契约", "path": "adapters/reference", "status": "reference-only"},
+    {"id": "tests", "title": "自动验证", "path": "tests", "status": "maintained"}
+  ]
+}
