@@ -122,7 +122,7 @@ class UDPTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             udp.endpoint("192.0.2.1:2006")
         with self.assertRaises(ValueError):
-            udp.handle({"schema": "legacy"}, "g1-a")
+            udp.handle({"schema": "unsupported"}, "g1-a")
         with self.assertRaises(ValueError):
             udp.encode({"text": "x" * 5000})
 

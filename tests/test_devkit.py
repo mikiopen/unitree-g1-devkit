@@ -4,7 +4,7 @@ import socket
 import tempfile
 import unittest
 from g1devkit.config import ROOT, load
-from g1devkit.protocol import decode, inspect_legacy, packet
+from g1devkit.protocol import decode, packet
 from g1devkit.runtime import Simulator, demo, request
 from g1devkit.voice import normalize
 
@@ -42,13 +42,6 @@ class DevkitTests(unittest.TestCase):
             data=load(); data['services']['action']='../outside.py'
             path.write_text(json.dumps(data),encoding='utf-8')
             with self.assertRaises(ValueError): load(path)
-
-    def test_legacy_packet_inspection_is_not_execution(self):
-        status=inspect_legacy('TARGET:192.168.1.8:9999')
-        self.assertFalse(status['motion_possible']); self.assertFalse(status['sent'])
-        velocity=inspect_legacy('ALL:0,0.1,0')
-        self.assertTrue(velocity['motion_possible']); self.assertFalse(velocity['sent'])
-        with self.assertRaises(ValueError): inspect_legacy('0,nan,0')
 
     def test_asr_spacing_normalizes_chinese_only(self):
         self.assertEqual(normalize('查询 状态'), '查询状态')

@@ -53,6 +53,7 @@ def main():
     run(["tools/check_environment.py", "--profile", "pc"])
     run(["g1.py", "doctor"])
     run(["g1.py", "demo"])
+    run(["g1.py", "contract-demo"])
     run(["g1.py", "plan"])
     run(["g1.py", "preflight"], expected=1)
     run(["g1.py", "inspect-action", "adapters/reference/actions/init.json", "--dof", "29"])

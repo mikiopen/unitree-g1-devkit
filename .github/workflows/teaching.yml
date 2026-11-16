@@ -6,18 +6,27 @@ jobs:
   pc:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            python: '3.10'
+            host_c: true
+          - os: ubuntu-latest
+            python: '3.12'
+            host_c: false
+          - os: windows-latest
+            python: '3.12'
+            host_c: false
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v7
         with:
-          python-version: '3.12'
+          python-version: ${{ matrix.python }}
       - run: python tools/verify_learning.py
       - run: python tools/check_upload_credentials.py
       - run: python tools/check_publication.py
       - name: Host C protocol verification
-        if: runner.os == 'Linux'
+        if: matrix.host_c
         run: |
           cc -std=c99 -Wall -Wextra -Werror examples/career-labs/serial/protocol.c examples/career-labs/serial/host_test.c -o "$RUNNER_TEMP/g1-host-test"
           "$RUNNER_TEMP/g1-host-test"

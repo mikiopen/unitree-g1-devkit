@@ -7,7 +7,6 @@ import platform
 import subprocess
 import sys
 from .config import ROOT, hardware_missing, load
-from .protocol import inspect_legacy
 from .runtime import demo
 from .reports import save_report
 
@@ -23,6 +22,7 @@ def main():
     commands.add_parser('catalog')
     commands.add_parser('doctor')
     commands.add_parser('plan')
+    commands.add_parser('contract-demo', help='Run the non-motion device-adapter contract demo')
     demo_parser = commands.add_parser('demo')
     demo_parser.add_argument('--report', help='New JSON file inside .local/reports')
     preflight_parser = commands.add_parser('preflight', help='Offline source, port, interface and action review')
@@ -32,7 +32,6 @@ def main():
     action_parser.add_argument('path')
     action_parser.add_argument('--dof', type=int, choices=(23, 29), required=True)
     action_parser.add_argument('--max-abs-rad', type=float, help='Optional caller review bound, not hardware limits')
-    wire = commands.add_parser('inspect-packet'); wire.add_argument('payload')
     state = commands.add_parser('state')
     state.add_argument('--dds', action='store_true')
     state.add_argument('--duration', type=float, default=1)
@@ -59,6 +58,9 @@ def main():
                                     'application interface'],
                   'hardware_missing': hardware_missing(config), 'executed': False,
                   'guide': 'docs/install.md', 'adapter_port_config': 'Source constants; match before deployment'})
+        elif args.command == 'contract-demo':
+            from .adapter import contract_demo
+            emit(contract_demo())
         elif args.command == 'demo':
             result = demo()
             if args.report:
@@ -74,8 +76,6 @@ def main():
         elif args.command == 'inspect-action':
             from .actions import inspect_action
             emit(inspect_action(args.path, args.dof, args.max_abs_rad))
-        elif args.command == 'inspect-packet':
-            emit(inspect_legacy(args.payload))
         elif args.command == 'state':
             if not math.isfinite(args.duration) or not 0 < args.duration <= 300:
                 raise ValueError('duration must be finite and within (0, 300] seconds')

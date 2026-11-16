@@ -1,7 +1,5 @@
-"""Validate teaching packets and inspect the selected legacy App wire format."""
-import ipaddress
+"""Validate the loopback-only teaching protocol."""
 import json
-import math
 import uuid
 
 MAX_PACKET = 4096
@@ -78,24 +76,3 @@ def decode_reply(raw, sent):
     if sent['command'] == 'stop_demo' and reply['mode'] != 'idle':
         raise ValueError('Mock stop must report idle')
     return reply
-
-
-def inspect_legacy(text):
-    """Parse without sending: numbers and velocity triples can move a real G1."""
-    if len(text.encode('utf-8')) > MAX_PACKET:
-        raise ValueError('Packet too large')
-    target = 'all'
-    if text.startswith('TARGET:'):
-        _, target, text = text.split(':', 2)
-        ipaddress.IPv4Address(target)
-    elif text.startswith('ALL:'):
-        text = text[4:]
-    if ',' in text:
-        values = [float(value) for value in text.split(',')]
-        if len(values) != 3 or not all(math.isfinite(value) for value in values):
-            raise ValueError('Expected three finite velocities')
-        return {'target': target, 'kind': 'velocity', 'order': ['vy', 'vx', 'yaw'], 'values': values,
-                'motion_possible': True, 'sent': False}
-    command = int(text)
-    return {'target': target, 'kind': 'integer', 'command': command,
-            'motion_possible': command != 9999, 'sent': False}

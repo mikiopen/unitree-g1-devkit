@@ -12,7 +12,7 @@ def inspect(path, joints, max_abs):
         reader = csv.reader(stream)
         expected = ["time_s"] + [f"q{i}_rad" for i in range(joints)]
         if next(reader, None) != expected:
-            raise ValueError(f"Header must be {expected}; legacy CSV requires an explicit adapter")
+            raise ValueError(f"Header must be {expected}; other CSV layouts require an explicit adapter")
         previous = -1.0
         first = None
         rows = 0

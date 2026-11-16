@@ -1,4 +1,4 @@
-"""Loopback-only teaching protocol, independent of the legacy App/robot protocol."""
+"""Loopback-only teaching protocol; it is not a robot control protocol."""
 import argparse
 import ipaddress
 import json

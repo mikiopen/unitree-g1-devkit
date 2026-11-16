@@ -19,7 +19,7 @@
 | 必需环境 | Python3.10+；无需ASR、模型或机器人。 |
 | 可选条件 | 可将09章text作为输入，或在.local维护自己的同义短句配置。 |
 | 前置章节 | [05 数据格式](05-action-data.md)；语音输入另需[09 ASR](09-asr.md)。 |
-| 接口依据 | [独立白名单路由器](../../examples/10-command-router/route_text.py)与显式mapping文件；历史语音原型映射单独保留。 |
+| 接口依据 | [独立白名单路由器](../../examples/10-command-router/route_text.py)与显式 mapping 文件。 |
 | 验证状态 | 电脑白名单、非法配置与拒绝路径已验证。 |
 
 ### 准备与配置

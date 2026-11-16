@@ -23,7 +23,7 @@ class ActionTests(unittest.TestCase):
                                                    (12, 23, 'unchanged', 11)]:
             with self.subTest(width=width, dof=dof):
                 report = self.inspect([{'data': [2.5] + [0.1] * (width - 1)}], dof)
-                self.assertEqual(report['legacy_conversions'][conversion], 1)
+                self.assertEqual(report['width_conversions'][conversion], 1)
                 self.assertEqual(report['target_count'], target_count)
                 self.assertEqual(report['total_duration_s'], 2.5)
                 self.assertFalse(report['motion_validated'])

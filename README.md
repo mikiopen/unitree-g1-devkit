@@ -24,6 +24,7 @@
 ```bash
 python tools/check_environment.py --profile pc
 python g1.py demo
+python g1.py contract-demo
 python tools/verify_learning.py
 ```
 
@@ -32,7 +33,7 @@ python tools/verify_learning.py
 ## 仓库内容
 
 - `docs/`：学习框架、教程、专题与项目模板。
-- `g1devkit/`：配置、校验、模拟状态、协议和命令行工具。
+- `g1devkit/`：设备适配契约、配置、校验、模拟状态、协议和命令行工具。
 - `examples/`：可以在电脑上独立运行的最小实验。
 - `adapters/reference/`：设备适配器的静态契约示例。
 - `configs/`：不含设备身份和凭证的示例配置。

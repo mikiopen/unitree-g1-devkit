@@ -9,7 +9,7 @@ unitree-g1-devkit/
 │  ├─ tutorials/          统一模板的实践教程
 │  ├─ topics/             可选扩展专题
 │  └─ tracks/             不同学习目标的路线
-├─ g1devkit/              教学工具与领域层代码
+├─ g1devkit/              设备契约、教学工具与领域层代码
 ├─ examples/              本机可运行的最小实验
 ├─ adapters/reference/    不可直接部署的静态契约示例
 ├─ configs/               可公开的示例配置
