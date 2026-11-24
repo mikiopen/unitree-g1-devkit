@@ -58,6 +58,8 @@ def main():
     if task.returncode == 0:
         report = json.loads(task.stdout)
         if ([step["state"] for step in report["steps"]] != ["succeeded", "succeeded"]
+                or report["steps"][1]["event"]["result"]["text"] != "状态已读取"
+                or not task.stdout.isascii()
                 or report["network_accessed"] is not False
                 or report["motion_executed"] is not False):
             errors.append("Offline task plan did not produce two synthetic successes")

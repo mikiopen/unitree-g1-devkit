@@ -11,8 +11,8 @@ from .runtime import demo
 from .reports import save_report
 
 
-def emit(value):
-    print(json.dumps(value, ensure_ascii=False, indent=2))
+def emit(value, *, ensure_ascii=False):
+    print(json.dumps(value, ensure_ascii=ensure_ascii, indent=2))
 
 
 def main():
@@ -49,7 +49,8 @@ def main():
             result = run_task(args.plan)
             if args.report:
                 result['saved_report'] = save_report(result, args.report)
-            emit(result)
+            # Keep JSON safe to pipe through shells with different output encodings.
+            emit(result, ensure_ascii=True)
             return 0 if result['passed'] else 1
 
         config = load(args.config)
