@@ -54,6 +54,13 @@ def main():
     run(["g1.py", "doctor"])
     run(["g1.py", "demo"])
     run(["g1.py", "contract-demo"])
+    task = run(["g1.py", "run-task", "examples/task-plan.json"])
+    if task.returncode == 0:
+        report = json.loads(task.stdout)
+        if ([step["state"] for step in report["steps"]] != ["succeeded", "succeeded"]
+                or report["network_accessed"] is not False
+                or report["motion_executed"] is not False):
+            errors.append("Offline task plan did not produce two synthetic successes")
     run(["g1.py", "plan"])
     run(["g1.py", "preflight"], expected=1)
     run(["g1.py", "inspect-action", "adapters/reference/actions/init.json", "--dof", "29"])
@@ -69,6 +76,17 @@ def main():
     run(["examples/10-command-router/route_text.py", "向前走"], expected=1)
     run(["examples/09-asr-demo/transcribe_file.py", "missing.wav", "--model", "missing-model"], expected=2)
     with tempfile.TemporaryDirectory() as temporary:
+        plan = Path(temporary) / "plan.json"
+        plan.write_text(json.dumps({"schema": "g1devkit/task-plan/v1",
+                                   "steps": [{"operation": "unknown"}, {"operation": "status"}]}),
+                        encoding="utf-8")
+        task = run(["g1.py", "run-task", plan], expected=1)
+        if task.returncode == 1:
+            states = [step["state"] for step in json.loads(task.stdout)["steps"]]
+            if states != ["rejected", "skipped"]:
+                errors.append("Rejected task did not skip its remaining step")
+        plan.write_text("{}", encoding="utf-8")
+        run(["g1.py", "run-task", plan], expected=2)
         audio = Path(temporary) / "tone.wav"
         run(["examples/08-audio-demo/audio_file.py", "create", "--output", audio])
         result = run(["examples/08-audio-demo/audio_file.py", "inspect", audio])

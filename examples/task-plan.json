@@ -1,0 +1,7 @@
+{
+  "schema": "g1devkit/task-plan/v1",
+  "steps": [
+    {"operation": "status"},
+    {"operation": "echo", "parameters": {"text": "状态已读取"}}
+  ]
+}

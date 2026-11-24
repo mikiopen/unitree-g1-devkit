@@ -25,16 +25,16 @@
 
 `待检查 → 已接受 → 执行中 → 成功 / 失败`；取消分为“取消请求中”和“已确认取消”。前置检查可直接拒绝。超时可进入“结果未知/待确认”，查明设备端状态后才能决定下一步。
 
-这些是设计建议，并非现有白名单已实现的任务引擎。状态机适合先把有限流程讲清；任务变复杂后可按需求选择行为树或其他编排方式。
+内存任务示例覆盖顺序执行、成功、拒绝和跳过。取消确认、并发与恢复可作为独立的扩展练习。
 
 ## 最小示例
 
-1. 设计两个模拟技能：读取状态、显示结果。每个填写参数、前置条件、成功证据与错误。
-2. 将两者串成“读取成功才显示有效结果”；失败时显示未知，不沿用旧值冒充成功。
-3. 模拟执行中取消、回复迟到与重复请求，写出每一步的任务状态。
-4. 用现有白名单输出作为入口样本；后续自行实现技能调度，不把dry-run结果当执行记录。
+1. 在仓库根目录运行 `python g1.py run-task examples/task-plan.json`。计划依次提交 `status` 和 `echo`，从 `steps[].event` 查看请求 ID、结果和事件时间。
+2. 将[示例计划](../../examples/task-plan.json)复制到 `.local/task-plan.json`，把第一步的操作改为 `unknown`，再运行 `python g1.py run-task .local/task-plan.json`。第一步为 `rejected`，第二步为 `skipped`，并用 `blocked_by_step` 指向第一步。
+3. 加上 `--report .local/reports/task-plan.json` 保存报告。退出码 `0` 表示全部成功，`1` 表示步骤被拒绝或执行失败，`2` 表示输入或报告文件错误。
+4. 尝试添加格式错误的步骤，例如将 `parameters` 改为数组。运行器会在提交任何步骤前验证整份计划的结构。
 
-可参考的任务事件字段：`task_id`、`device_id`、`skill`、`state`、`sequence`、`error`。序列号与会话标识的使用由项目定义。
+计划使用 `g1devkit/task-plan/v1`，最多 16 步。每步填写 `operation` 和可选的 `parameters` 对象。`echo` 使用 `parameters.text`。事件包含 `request_id`、`device_id`、`operation`、`state`、`occurred_at_ms` 和可选错误说明。跳过的步骤只记录顺序和阻塞原因。
 
 ## 可修改与扩展点
 

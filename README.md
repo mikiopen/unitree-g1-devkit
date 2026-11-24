@@ -25,6 +25,7 @@
 python tools/check_environment.py --profile pc
 python g1.py demo
 python g1.py contract-demo
+python g1.py run-task examples/task-plan.json
 python tools/verify_learning.py
 ```
 

@@ -23,6 +23,9 @@ def main():
     commands.add_parser('doctor')
     commands.add_parser('plan')
     commands.add_parser('contract-demo', help='Run the non-motion device-adapter contract demo')
+    task_parser = commands.add_parser('run-task', help='Run a JSON plan in the in-memory simulator')
+    task_parser.add_argument('plan', help='Path to a teaching task plan')
+    task_parser.add_argument('--report', help='New JSON file inside .local/reports')
     demo_parser = commands.add_parser('demo')
     demo_parser.add_argument('--report', help='New JSON file inside .local/reports')
     preflight_parser = commands.add_parser('preflight', help='Offline source, port, interface and action review')
@@ -41,6 +44,14 @@ def main():
     voice.add_argument('--model', required=True)
     args = parser.parse_args()
     try:
+        if args.command == 'run-task':
+            from .task import run_task
+            result = run_task(args.plan)
+            if args.report:
+                result['saved_report'] = save_report(result, args.report)
+            emit(result)
+            return 0 if result['passed'] else 1
+
         config = load(args.config)
         if args.command == 'catalog':
             emit(json.loads((ROOT/'configs/modules.json').read_text(encoding='utf-8')))
